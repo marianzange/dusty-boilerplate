@@ -1,0 +1,11 @@
+image: temal/logio-server
+
+host_forwarding:
+  - host_name: logs.dusty-boilerplate.io
+    host_port: 80
+    container_port: 28778
+
+commands:
+  once: []
+  always:
+    - log.io-server

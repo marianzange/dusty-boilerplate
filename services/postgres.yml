@@ -1,0 +1,7 @@
+image: postgres:9.4
+
+volumes:
+    - /persist/postgres/data:/var/lib/postgresql
+
+ports:
+ - 5432:5432

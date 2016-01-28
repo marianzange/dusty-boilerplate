@@ -1,0 +1,5 @@
+description: Tools for configuration and monitoring
+apps:
+  - etcd-browser
+  - logio-harvester
+  - cadvisor

@@ -1,0 +1,4 @@
+image: anapsix/solr:latest
+
+ports:
+ - 8983:8983

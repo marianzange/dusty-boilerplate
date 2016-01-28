@@ -1,0 +1,46 @@
+build: .
+
+repo: github.com/marianzange/dusty-boilerplate-flask.git
+
+mount: /src/dusty-boilerplate-flask
+
+host_forwarding:
+  - host_name: flask.dusty-boilerplate.io
+    host_port: 80
+    container_port: 5000
+
+commands:
+  once:
+    - curl -L https://github.com/upfluence/etcdenv/releases/download/v0.3.1/etcdenv-linux-amd64-0.3.1 > /usr/local/bin/etcdenv
+    - chmod +x /usr/local/bin/etcdenv
+    - pip install -r requirements.txt
+  always:
+    # etcdenv wraps the the executed python process and provides the environment
+    # variables from etcd. In this example it looks for kv stored under
+    # /apps/boilerplate/flask and will restart the py process on any detected change.
+    - |
+      etcdenv \
+      -s http://etcd:4001 \
+      -n /apps/boilerplate/flask \
+      -b restart \
+      python app.py
+
+scripts:
+  # If you want to play around with python packages without going through
+  # the hassle of restarting your container after avery package change,
+  # this is one way to do it.
+  - name: pip
+    description: Execute pip inside the container
+    command:
+      - pip
+
+compose:
+  environment:
+    APP_NAME: Flask Boilerplate
+    ETCDCTL_ENDPOINT: http://etcd:2379
+
+depends:
+  services:
+    - memcached
+    - postgres
+    - etcd

@@ -1,0 +1,18 @@
+image: google/cadvisor
+
+host_forwarding:
+  - host_name: cadvisor.dusty-boilerplate.io
+    host_port: 80
+    container_port: 8080
+
+commands:
+  once: []
+  always:
+    - /usr/bin/cadvisor
+
+compose:
+  volumes:
+    - /:/rootfs:ro
+    - /var/run:/var/run:rw
+    - /sys:/sys:ro
+    - /var/lib/docker/:/var/lib/docker:ro
